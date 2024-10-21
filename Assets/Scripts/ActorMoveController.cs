@@ -10,6 +10,7 @@ public class ActorMoveController : MonoBehaviour
 
     public void Move(Vector2 axisValues)
     {
+        axisValues = axisValues.normalized;
         rb.velocity = axisValues * speed;
     }
 }
