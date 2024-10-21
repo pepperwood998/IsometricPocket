@@ -4,6 +4,8 @@ public class ActorAnimationController : MonoBehaviour
 {
     [SerializeField] private Animator animator;
 
+    private int _lastAnimIndex;
+
     public readonly static string[] StaticAnimNames =
     {
         "Static N", "Static NW", "Static W", "Static SW",
@@ -16,16 +18,21 @@ public class ActorAnimationController : MonoBehaviour
         "Run S", "Run SE", "Run E", "Run NE"
     };
 
-    public void Move(Vector2 direction)
+    public bool TryMove(Vector2 direction)
     {
         string[] animNames = StaticAnimNames;
-        if (direction.sqrMagnitude > 0.01f)
+        direction = direction.normalized;
+        bool move = direction.sqrMagnitude > 0.01f;
+        if (move)
         {
             animNames = RunAnimNames;
+
+            _lastAnimIndex = GetMoveAnimIndexFromDir(direction);
         }
 
-        int moveAnimIndex = GetMoveAnimIndexFromDir(direction);
-        animator.Play(animNames[moveAnimIndex]);
+        animator.Play(animNames[_lastAnimIndex]);
+
+        return move;
     }
 
     private int GetMoveAnimIndexFromDir(Vector2 direction)
@@ -33,7 +40,6 @@ public class ActorAnimationController : MonoBehaviour
         float sliceAngle = 360f / 8f;
         float angleOffset = sliceAngle / 2f;
 
-        direction = direction.normalized;
         float angle = Vector2.SignedAngle(Vector2.up, direction);
 
         angle += angleOffset; // Centerize target direction

@@ -5,6 +5,8 @@ public class LegacyActorInputController : BaseActorInputController
 {
     private Action<Vector2> _onInputMove;
     private Action<Vector2> _onInputPhysicsMove;
+    private Action _onInteract;
+    private Action _onDrop;
 
     private void Update()
     {
@@ -27,10 +29,29 @@ public class LegacyActorInputController : BaseActorInputController
         _onInputPhysicsMove = handler;
     }
 
+    public override void RegisterInteractionHandler(Action handler)
+    {
+        _onInteract = handler;
+    }
+
+    public override void RegisterDropHandler(Action handler)
+    {
+        _onDrop = handler;
+    }
+
     private void ProcessInput()
     {
         xAxisValue = Input.GetAxis(HorizontalAxisName);
         yAxisValue = Input.GetAxis(VerticalAxisName);
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            _onInteract?.Invoke();
+        }
+        else if (Input.GetKeyDown(KeyCode.F))
+        {
+            _onDrop?.Invoke();
+        }
     }
 
     private readonly string HorizontalAxisName = "Horizontal";

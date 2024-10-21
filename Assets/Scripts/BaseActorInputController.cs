@@ -9,4 +9,8 @@ public abstract class BaseActorInputController : MonoBehaviour
     public abstract void RegisterMoveHandler(Action<Vector2> handler);
 
     public abstract void RegisterPhysicsMoveHandler(Action<Vector2> handler);
+
+    public abstract void RegisterInteractionHandler(Action handler);
+
+    public abstract void RegisterDropHandler(Action handler);
 }
