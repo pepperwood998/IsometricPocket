@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class ActorController : MonoBehaviour
@@ -25,7 +24,7 @@ public class ActorController : MonoBehaviour
 
     public void Interact()
     {
-        interactionController.CheckInteractItem();
+        interactionController.TryInteractItem();
     }
 
     public void PickUp(PickableItem item)
