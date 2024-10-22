@@ -50,6 +50,8 @@ public class ActorInteractionController : MonoBehaviour
     {
         if (_targetingItem)
         {
+            TryDropHolding();
+
             _targetingItem.Interact(actor);
         }
     }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class UIInteraction : MonoBehaviour
@@ -6,6 +7,7 @@ public class UIInteraction : MonoBehaviour
 
     [SerializeField] private RectTransform root;
     [SerializeField] private Camera worldCamera;
+    [SerializeField] private RectTransform moveTutorial;
     [SerializeField] private RectTransform textInteractPoint;
     [SerializeField] private RectTransform textDropPoint;
     [SerializeField] private Vector2 offset;
@@ -20,6 +22,8 @@ public class UIInteraction : MonoBehaviour
 
     private void Start()
     {
+        ToggleMoveTutorial(true);
+
         ToggleInteract(false);
         ToggleDrop(false);
     }
@@ -38,6 +42,11 @@ public class UIInteraction : MonoBehaviour
             var anchoredPosition = GetShowPosition(_targetDrop.position);
 
             textDropPoint.anchoredPosition = anchoredPosition;
+
+            if (!_targetInteract && !textDropPoint.gameObject.activeSelf)
+            {
+                ToggleDrop(true);
+            }
         }
     }
 
@@ -93,5 +102,18 @@ public class UIInteraction : MonoBehaviour
         Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(worldCamera, worldPosition);
         RectTransformUtility.ScreenPointToLocalPointInRectangle(root, screenPoint, null, out var anchoredPosition);
         return anchoredPosition + offset;
+    }
+
+    public void HideMoveTutorial()
+    {
+        if (moveTutorial.gameObject.activeSelf)
+        {
+            ToggleMoveTutorial(false);
+        }
+    }
+
+    private void ToggleMoveTutorial(bool enable)
+    {
+        moveTutorial.gameObject.SetActive(enable);
     }
 }

@@ -28,6 +28,8 @@ public class ActorAnimationController : MonoBehaviour
             animNames = RunAnimNames;
 
             _lastAnimIndex = GetMoveAnimIndexFromDir(direction);
+
+            UIInteraction.Instance.HideMoveTutorial();
         }
 
         animator.Play(animNames[_lastAnimIndex]);
